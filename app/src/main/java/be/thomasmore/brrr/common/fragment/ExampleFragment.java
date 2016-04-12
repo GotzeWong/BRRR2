@@ -37,7 +37,7 @@ public class ExampleFragment extends TitledFragment {
 
         args = this.getArguments();
         setViewPager();
-        Toast.makeText(Application.getAppContext(), args.getInt(ARG_POSITION, 0)+"", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(Application.getAppContext(), args.getInt(ARG_POSITION, 0)+"", Toast.LENGTH_SHORT).show();
 
         return v;
     }

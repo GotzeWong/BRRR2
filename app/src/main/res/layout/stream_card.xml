@@ -45,7 +45,11 @@
                 android:layout_height="wrap_content"
                 android:text="@string/default_text_main"
                 android:textColor="@color/basicColor"
-                android:textSize="36sp"/>
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:textSize="32sp"/>
 
             <TextView
                 android:id="@+id/card_time_text"

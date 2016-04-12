@@ -22,6 +22,7 @@ import be.thomasmore.brrr.Application;
 import be.thomasmore.brrr.R;
 import be.thomasmore.brrr.common.adapter.TabPagerFragmentAdapter;
 import be.thomasmore.brrr.data.model.Beacon;
+import be.thomasmore.brrr.utils.DBHelper;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -55,6 +56,9 @@ public class DetailFragment extends TitledFragment {
 
     private boolean mainTextExpand = false;
 
+
+    private DBHelper mydb ;
+
     public static DetailFragment getInstance(Context context, int pos) {
         Bundle args = new Bundle();
 
@@ -73,6 +77,7 @@ public class DetailFragment extends TitledFragment {
         View v = inflater.inflate(LAYOUT, container, false);
         position = this.getArguments().getInt(ARG_POSITION, 0);
 
+        mydb = new DBHelper(Application.getAppContext());
 //        ButterKnife.bind(this, v);
 
         TextView titleText = ButterKnife.findById(v, R.id.card_title_text);
@@ -101,8 +106,10 @@ public class DetailFragment extends TitledFragment {
         titleText.setText(beacon.getTitle());
         timeText.setText(beacon.getShowTime());
         mainText.setText(beacon.getMainText());
-        actionButton1.setText("BTN1");
+        actionButton1.setText("CALL");
         actionButton2.setText("MORE");
+
+        beacon.setLiked(mydb.get(beacon));
         cardHeartButton.setSelected(beacon.isLiked());
 
         actionButton2.setOnClickListener(new View.OnClickListener() {
@@ -133,22 +140,30 @@ public class DetailFragment extends TitledFragment {
                 v.setSelected(!v.isSelected());
                 if (v.isSelected()) {
                     like();
+
                 } else {
                     unlike();
+
                 }            }
             });
 
             return v;
         }
 
+    private void like() {
 
-        private void like() {
-            beacon.setLiked(true);
-        }
+        beacon.setLiked(true);
 
-        private void unlike() {
-            beacon.setLiked(false);
-        }
+        //add to database
+        mydb.insert(beacon);
+    }
 
+    private void unlike() {
+
+        beacon.setLiked(false);
+
+        // delete record
+        mydb.delete(beacon);
+    }
 
 }

@@ -22,6 +22,7 @@ import be.thomasmore.brrr.common.adapter.TabConstants;
 import be.thomasmore.brrr.common.adapter.TabPagerFragmentAdapter;
 import be.thomasmore.brrr.common.fragment.CityStreamFragment;
 import be.thomasmore.brrr.common.fragment.TitledFragment;
+import be.thomasmore.brrr.utils.DBHelper;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
@@ -32,6 +33,7 @@ public class MainActivity extends AppCompatActivity
 
 //    @Bind(R.id.viewPager)
     ViewPager viewPager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +51,8 @@ public class MainActivity extends AppCompatActivity
         }
 
         ButterKnife.bind(this);
+
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

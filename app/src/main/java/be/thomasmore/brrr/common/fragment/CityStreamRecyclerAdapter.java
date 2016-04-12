@@ -22,6 +22,7 @@ import be.thomasmore.brrr.Application;
 import be.thomasmore.brrr.BuildConfig;
 import be.thomasmore.brrr.R;
 import be.thomasmore.brrr.data.model.Beacon;
+import be.thomasmore.brrr.utils.DBHelper;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -30,8 +31,12 @@ public class CityStreamRecyclerAdapter extends RecyclerView.Adapter<CityStreamRe
 
     private final LinkedList<Beacon> mItems;
 
+
+    private DBHelper mydb ;
+
     public CityStreamRecyclerAdapter() {
         this.mItems = new LinkedList<>();
+        mydb = new DBHelper(Application.getAppContext());
     }
 
     @Override
@@ -117,15 +122,16 @@ public class CityStreamRecyclerAdapter extends RecyclerView.Adapter<CityStreamRe
             titleText.setText(beacon.getTitle());
             timeText.setText(beacon.getShowTime());
             mainText.setText(beacon.getMainText());
-            actionButton1.setText("BTN1");
+            actionButton1.setText("CALL");
             actionButton2.setText("MORE");
-            cardHeartButton.setSelected(beacon.isLiked());
 
+//            cardHeartButton.setSelected(beacon.isLiked());
+            beacon.setLiked(mydb.get(beacon));
+            cardHeartButton.setSelected(beacon.isLiked());
 
             actionButton2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
 
                     Toast.makeText(Application.getAppContext(), " click more", Toast.LENGTH_SHORT).show();
                 }
@@ -143,11 +149,19 @@ public class CityStreamRecyclerAdapter extends RecyclerView.Adapter<CityStreamRe
         }
 
         private void like() {
+
             beacon.setLiked(true);
+
+            //add to database
+            mydb.insert(beacon);
         }
 
         private void unlike() {
+
             beacon.setLiked(false);
+
+            // delete record
+            mydb.delete(beacon);
         }
 
         @OnClick(R.id.card_main_text)
